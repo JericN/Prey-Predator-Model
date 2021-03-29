@@ -77,16 +77,16 @@ public class Frame {
     }
     public void setIcons(){
         try{
-            Image iWolf = ImageIO.read(new File("D:\\Workplace\\Java\\PreyPredatorModel\\img\\wolf.png"));
-            Image iBunny = ImageIO.read(new File("D:\\Workplace\\Java\\PreyPredatorModel\\img\\bunny.png"));
-            Image iGrass = ImageIO.read(new File("D:\\Workplace\\Java\\PreyPredatorModel\\img\\grass.png"));
-            Image iWolfGrass = ImageIO.read(new File("D:\\Workplace\\Java\\PreyPredatorModel\\img\\wolfGrass.png"));
-            Image iBunnyGrass = ImageIO.read(new File("D:\\Workplace\\Java\\PreyPredatorModel\\img\\bunnyGrass.png"));
-            Image iWolf2 = ImageIO.read(new File("D:\\Workplace\\Java\\PreyPredatorModel\\img\\wolf2.png"));
-            Image iBunny2 = ImageIO.read(new File("D:\\Workplace\\Java\\PreyPredatorModel\\img\\bunny2.png"));
-            Image iGrass2 = ImageIO.read(new File("D:\\Workplace\\Java\\PreyPredatorModel\\img\\grass2.png"));
-            Image iWolfGrass2 = ImageIO.read(new File("D:\\Workplace\\Java\\PreyPredatorModel\\img\\wolfGrass2.png"));
-            Image iBunnyGrass2 = ImageIO.read(new File("D:\\Workplace\\Java\\PreyPredatorModel\\img\\bunnyGrass2.png"));
+            Image iWolf = ImageIO.read(new File("img/wolf.png"));
+            Image iBunny = ImageIO.read(new File("img/bunny.png"));
+            Image iGrass = ImageIO.read(new File("img/grass.png"));
+            Image iWolfGrass = ImageIO.read(new File("img/wolfGrass.png"));
+            Image iBunnyGrass = ImageIO.read(new File("img/bunnyGrass.png"));
+            Image iWolf2 = ImageIO.read(new File("img/wolf2.png"));
+            Image iBunny2 = ImageIO.read(new File("img/bunny2.png"));
+            Image iGrass2 = ImageIO.read(new File("img/grass2.png"));
+            Image iWolfGrass2 = ImageIO.read(new File("img/wolfGrass2.png"));
+            Image iBunnyGrass2 = ImageIO.read(new File("img/bunnyGrass2.png"));
             iWolf = iWolf.getScaledInstance(panelWidth, panelHeight,  java.awt.Image.SCALE_SMOOTH);
             iBunny = iBunny.getScaledInstance(panelWidth, panelHeight,  java.awt.Image.SCALE_SMOOTH);
             iGrass = iGrass.getScaledInstance(panelWidth, panelHeight,  java.awt.Image.SCALE_SMOOTH);
