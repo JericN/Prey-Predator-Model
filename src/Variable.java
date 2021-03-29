@@ -11,26 +11,34 @@ public class Variable {
     static int numGrass;
     static int numGrassLife;
     static int numPreyLife;
+    static int numPreyLifeThreshold;
     static int numPredatorLife;
+    static int numPredatorLifeThreshold;
     static int numPreyBirth;
     static int numPredatorBirth;
-    static int numReproduction;
     static int[][] movePath;
     static int[][] foodPath;
     static ArrayList<ArrayList<HashMap<String,String>>> cell;
 
     public void setVariable(){
-        numRow=18;
-        numCol=32;
+        numRow=27;
+        numCol=48;
         numCells=numRow*numCol;
+
         numPrey=40;
-        numPredator=4;
-        numGrass=50;
+        numPredator=5;
+        numGrass=70;
+
         numGrassLife=5;
         numPreyLife = 8;
-        numPredatorLife = 17;
-        numPreyBirth = 10;
-        numPredatorBirth = 20;
+        numPreyLifeThreshold = 15;
+
+        numPredatorLife = 15;
+        numPredatorLifeThreshold = 23;
+
+        numPreyBirth = 18;
+        numPredatorBirth = 35;
+
         cell= new ArrayList<>(numRow);
         movePath=function.genMoveArray();
         foodPath=function.genFoodArray();

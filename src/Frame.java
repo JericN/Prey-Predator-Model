@@ -51,7 +51,7 @@ public class Frame {
     public void setFrame(){
         frame = new JFrame("PreyPredator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1224, 722);
+        frame.setSize(1560, 911);
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
         frame.setBackground(Color.red);

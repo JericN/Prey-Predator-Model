@@ -53,7 +53,6 @@ public class Function {
                 }
             }
         }
-        System.out.println(Arrays.deepToString(foodPath));
         return foodPath;
     }
 

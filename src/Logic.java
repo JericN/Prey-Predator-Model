@@ -13,7 +13,9 @@ public class Logic {
     int numPredator;
     int numGrass;
     int numPreyLife;
+    int numPreyLifeThreshold;
     int numPredatorLife;
+    int numPredatorLifeThreshold;
     int numGrassLife;
     int numPreyBirth;
     int numPredatorBirth;
@@ -30,7 +32,7 @@ public class Logic {
 
 //    type: prey/predator/empty
 //    food: predator/prey
-//    hunger: hungry/eating
+//    hunger: full/hungry/eating
 //    state: free/moved
 //    location: field/grass
 //    grassLife: 0-9
@@ -38,7 +40,6 @@ public class Logic {
 //    reproduction: 0-9
 
     public void startLogic() {
-        System.out.println("startLogic");
         getVariables("initialize");
         setCells();
         updateVariables();
@@ -55,7 +56,9 @@ public class Logic {
         numCells = Variable.numCells;
         numGrassLife = Variable.numGrassLife;
         numPreyLife = Variable.numPreyLife;
+        numPreyLifeThreshold = Variable.numPreyLifeThreshold;
         numPredatorLife = Variable.numPredatorLife;
+        numPredatorLifeThreshold = Variable.numPredatorLifeThreshold;
         numPreyBirth = Variable.numPreyBirth;
         numPredatorBirth = Variable.numPredatorBirth;
         movePath = Variable.movePath;
@@ -75,7 +78,6 @@ public class Logic {
     }
 
     public void setCells() {
-        System.out.println("Set Cells");
         for (int i = 0; i < numRow; i++) {
             cell.add(new ArrayList<>(numCol));
             for (int j = 0; j < numCol; j++) {
@@ -108,35 +110,39 @@ public class Logic {
     }
 
     public HashMap<String, String> findCell(String method) {
-        randX = function.randNum(0,numCol);
-        randY = function.randNum(0,numRow);
+        randX = function.randNum(numCol);
+        randY = function.randNum(numRow);
         if (method.equals("empty")) {
             while (!cell.get(randY).get(randX).get("type").equals("empty")) {
-                randX = function.randNum(0,numCol);
-                randY = function.randNum(0,numRow);
+                randX = function.randNum(numCol);
+                randY = function.randNum(numRow);
             }
         } else if (method.equals("field")) {
             while (!cell.get(randY).get(randX).get("location").equals("field")) {
-                randX = function.randNum(0,numCol);
-                randY = function.randNum(0,numRow);
+                randX = function.randNum(numCol);
+                randY = function.randNum(numRow);
             }
         }
         return cell.get(randY).get(randX);
     }
     public void addPrey(){
+        int randLife = function.randNum(numPreyLife,numPreyLifeThreshold);
+        int randRep = function.randNum(0,5);
         targetCell.replace("type", "prey");
         targetCell.replace("food", "grass");
-        targetCell.replace("hunger", "hungry");
-        targetCell.replace("objectLife", Integer.toString(numPreyLife));
-        targetCell.replace("reproduction", "0");
+        targetCell.replace("hunger", "full");
+        targetCell.replace("objectLife", Integer.toString(randLife));
+        targetCell.replace("reproduction", Integer.toString(randRep));
         targetCell.replace("state", "free");
     }
     public void addPredator(){
+        int randLife = function.randNum(numPredatorLife,numPredatorLifeThreshold);
+        int randRep = function.randNum(0,5);
         targetCell.replace("type", "predator");
         targetCell.replace("food", "prey");
-        targetCell.replace("hunger", "hungry");
-        targetCell.replace("objectLife", Integer.toString(numPredatorLife));
-        targetCell.replace("reproduction", "0");
+        targetCell.replace("hunger", "full");
+        targetCell.replace("objectLife", Integer.toString(randLife));
+        targetCell.replace("reproduction", Integer.toString(randRep));
         targetCell.replace("state", "free");
     }
 
@@ -149,8 +155,10 @@ public class Logic {
             if (!currCell.get("type").equals("empty") && currCell.get("state").equals("free")) {
                 if(currCell.get("hunger").equals("eating")) {
                     eatGrass();
-                }else{
+                }else if(currCell.get("hunger").equals("hungry")) {
                     findFoodCell(x,y);
+                }else{
+                    findMovementCell(x,y);
                 }
                 if(currCell.get("state").equals("free")){
                     findMovementCell(x,y);
@@ -215,14 +223,8 @@ public class Logic {
     }
 
     public void eatObject(int x, int y){
-        int life = Integer.parseInt(currCell.get("objectLife"));
         if(currCell.get("type").equals("predator")){
-            life+=5;
-            if(life>numPredatorLife){
-                life=numPredatorLife;
-            }
-            currCell.replace("objectLife",Integer.toString(life));
-            moveObject();
+            eatPrey();
         }else{
             if(currCell.equals(targetCell)){
                 eatGrass();
@@ -255,13 +257,21 @@ public class Logic {
             currCell= targetCell;
         }
     }
-
+    public void eatPrey(){
+        int life = Integer.parseInt(currCell.get("objectLife"));
+        life+=8;
+        if(life>numPredatorLifeThreshold){
+            life=numPredatorLifeThreshold;
+        }
+        currCell.replace("objectLife",Integer.toString(life));
+        moveObject();
+    }
     public void eatGrass(){
         int preyLife = Integer.parseInt(currCell.get("objectLife"));
         int grassLife = Integer.parseInt(currCell.get("grassLife"))-1;
-        preyLife +=3;
-        if(preyLife>numPreyLife){
-            preyLife=numPreyLife;
+        preyLife +=4;
+        if(preyLife>numPreyLifeThreshold){
+            preyLife=numPreyLifeThreshold;
         }
         if(grassLife==0){
             grassLife=-3;
@@ -309,11 +319,25 @@ public class Logic {
 
     public void objectLife(){
         int life = Integer.parseInt(currCell.get("objectLife"))-1;
-        System.out.println(life+1);
         if(life==0){
             removeObject();
         }else{
             currCell.replace("objectLife",Integer.toString(life));
+        }
+        if(currCell.get("type").equals("prey")){
+            if(life < numPreyLife){
+                if(!currCell.get("hunger").equals("eating")) {
+                    currCell.replace("hunger", "hungry");
+                }
+            }else{
+                currCell.replace("hunger","full");
+            }
+        }else{
+            if(life < numPredatorLife){
+                currCell.replace("hunger", "hungry");
+            }else{
+                currCell.replace("hunger","full");
+            }
         }
     }
     public void grassLife(){
