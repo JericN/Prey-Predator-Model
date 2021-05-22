@@ -38,8 +38,7 @@ public class Function {
         }
         return movePath;
     }
-//    jhsjdghs
-//    asdasdsad
+
     public int[][] genFoodArray(){
         int[][] foodPath = new int[25][2];
         int k=0;
