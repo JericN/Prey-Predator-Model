@@ -1,4 +1,4 @@
-# 🐾 PreyPredatorModel – Ecosystem Simulation App
+# 🐾 Prey Predator Model – Ecosystem Simulation App
 
 **PreyPredatorModel** is a Java desktop application that simulates the interactions between predators, prey, and grass within a closed ecosystem. Developed using Object-Oriented Programming (OOP), this app provides a visual and interactive way to explore the delicate balance of a food chain.
 
